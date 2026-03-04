@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BrawlMeta AI — Powered by Grok</title>
+<title>BrawlMeta AI — Powered by Groq</title>
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -182,7 +182,7 @@
 <header>
   <div class="container header-inner">
     <div class="logo">Brawl<span>Meta</span> AI</div>
-    <div class="grok-badge"><div class="grok-dot"></div>Grok + Brawlify API</div>
+    <div class="grok-badge"><div class="grok-dot"></div>Groq + Brawlify API</div>
   </div>
 </header>
 
@@ -190,24 +190,24 @@
   <section class="hero">
     <div class="hero-tag">⚡ Dados Reais · IA Avançada</div>
     <h1><div class="line1">DOMINE O META</div><div class="line2">COM INTELIGÊNCIA</div></h1>
-    <p>Dados reais da <strong>Brawlify API</strong> + análises do <strong>Grok AI</strong>. Brawlers, eventos e estratégias vencedoras.</p>
+    <p>Dados reais da <strong>Brawlify API</strong> + análises do <strong>Groq AI</strong>. Brawlers, eventos e estratégias vencedoras.</p>
   </section>
 
   <div class="api-section">
     <div class="api-box">
       <label>🔑 Chave xAI (Grok) — para análises com IA</label>
       <div class="api-input-row">
-        <input type="password" id="apiKey" placeholder="xai-xxxxxxxxxxxxxxxxxxxxxxxx"/>
+        <input type="password" id="apiKey" placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxx"/>
         <button class="btn" onclick="saveKey()">Salvar</button>
       </div>
-      <p class="api-hint">Obtenha em <a href="https://console.x.ai" target="_blank">console.x.ai</a> · Brawlers e eventos carregam automaticamente sem chave</p>
+      <p class="api-hint">Obtenha em <a href="https://console.groq.com" target="_blank">console.groq.com</a> · Brawlers e eventos carregam automaticamente sem chave</p>
     </div>
   </div>
 
   <div class="tabs">
     <button class="tab active" data-tab="brawlers">🥊 Brawlers</button>
     <button class="tab" data-tab="eventos">🗺️ Eventos Agora</button>
-    <button class="tab" data-tab="chat">🤖 Grok Chat</button>
+    <button class="tab" data-tab="chat">🤖 Groq Chat</button>
   </div>
 
   <!-- BRAWLERS -->
@@ -230,7 +230,7 @@
       <div class="loading-state"><div class="spinner"></div><span>Carregando brawlers…</span></div>
     </div>
     <div class="ai-response-box" id="meta-ai-box">
-      <div class="ai-header"><div class="ai-avatar">🤖</div><div><div class="ai-name">Grok AI — Análise de Meta</div></div></div>
+      <div class="ai-header"><div class="ai-avatar">🤖</div><div><div class="ai-name">Groq AI — Análise de Meta</div></div></div>
       <div class="ai-response-text" id="meta-ai-text"></div>
     </div>
   </div>
@@ -245,7 +245,7 @@
       <div class="loading-state"><div class="spinner"></div><span>Carregando eventos…</span></div>
     </div>
     <div class="ai-response-box" id="event-ai-box">
-      <div class="ai-header"><div class="ai-avatar">🗺️</div><div><div class="ai-name">Grok AI — Análise do Evento</div></div></div>
+      <div class="ai-header"><div class="ai-avatar">🗺️</div><div><div class="ai-name">Groq AI — Análise do Evento</div></div></div>
       <div class="ai-response-text" id="event-ai-text"></div>
     </div>
   </div>
@@ -265,7 +265,7 @@
       <div class="chat-messages" id="chatMessages">
         <div class="message ai">
           <div class="msg-avatar">🤖</div>
-          <div class="msg-bubble">Olá, brawler! Sou o Grok, seu analista de Brawl Stars. Insira sua chave xAI e pergunte sobre meta, counters, mapas e composições! ⚡🎮</div>
+          <div class="msg-bubble">Olá, brawler! Sou o Groq, seu analista de Brawl Stars. Insira sua chave xAI e pergunte sobre meta, counters, mapas e composições! ⚡🎮</div>
         </div>
       </div>
       <div class="chat-input-area">
@@ -278,7 +278,7 @@
 
 <footer>
   <div class="container">
-    <p>BrawlMeta AI — Dados por <span>Brawlify API</span> · IA por <span>Grok (xAI)</span> · Não afiliado à Supercell</p>
+    <p>BrawlMeta AI — Dados por <span>Brawlify API</span> · IA por <span>Groq (gratuito)</span> · Não afiliado à Supercell</p>
   </div>
 </footer>
 
@@ -374,7 +374,7 @@ function showToast(msg,type='success'){
 function saveKey(){
   const v=document.getElementById('apiKey').value.trim();
   if(!v){showToast('Digite sua chave xAI!','error');return;}
-  apiKey=v;showToast('✅ Chave salva! Grok pronto!','success');
+  apiKey=v;showToast('✅ Chave salva! Groq pronto!','success');
 }
 function checkKey(){
   const v=document.getElementById('apiKey').value.trim();
@@ -466,7 +466,7 @@ function openBrawler(id){
     const prompt=`Analise o brawler ${b.name} (classe: ${b.class?.name}, raridade: ${b.rarity?.name}). Star Powers: ${sp}. Gadgets: ${gd}. Me diga: posição no meta atual, melhores star powers e gadgets, modos onde brilha, counters, fraquezas e 3 dicas práticas para dominá-lo.`;
     callGrok(prompt).then(text=>{document.getElementById('modalAIContent').innerHTML=`<div class="modal-ai-content">${text}</div>`;});
   } else {
-    document.getElementById('modalAIContent').innerHTML=`<div style="color:var(--muted);font-size:.85rem;line-height:1.8">Insira sua chave xAI para análise do Grok sobre <strong>${b.name}</strong>!<br><br>⭐ <b>Star Powers:</b> ${sp}<br>🔧 <b>Gadgets:</b> ${gd}</div>`;
+    document.getElementById('modalAIContent').innerHTML=`<div style="color:var(--muted);font-size:.85rem;line-height:1.8">Insira sua chave xAI para análise do Groq sobre <strong>${b.name}</strong>!<br><br>⭐ <b>Star Powers:</b> ${sp}<br>🔧 <b>Gadgets:</b> ${gd}</div>`;
   }
 }
 function closeModal(){document.getElementById('brawlerModal').classList.remove('open')}
@@ -548,14 +548,14 @@ function askMetaAI(){
 /* ─── GROK API ─── */
 async function callGrok(prompt){
   try{
-    const res=await fetch('https://api.x.ai/v1/chat/completions',{
+    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
-      body:JSON.stringify({model:'grok-3-mini',messages:[{role:'system',content:SYSTEM},{role:'user',content:prompt}],max_tokens:800,temperature:.7})
+      body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'system',content:SYSTEM},{role:'user',content:prompt}],max_tokens:800,temperature:.7})
     });
     if(!res.ok){const e=await res.json();throw new Error(e.error?.message||`Erro ${res.status}`);}
     const d=await res.json();return d.choices[0].message.content;
-  }catch(e){return`❌ Erro: ${e.message}\n\nVerifique sua chave em console.x.ai`;}
+  }catch(e){return`❌ Erro: ${e.message}\n\nVerifique sua chave em console.groq.com`;}
 }
 
 /* ─── CHAT ─── */
@@ -568,10 +568,10 @@ async function sendChat(){
   const lid='load-'+Date.now();
   addMessage('ai','<div class="loading-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>',lid);
   try{
-    const res=await fetch('https://api.x.ai/v1/chat/completions',{
+    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
-      body:JSON.stringify({model:'grok-3-mini',messages:[{role:'system',content:SYSTEM},...chatHistory.slice(-10)],max_tokens:600,temperature:.7})
+      body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'system',content:SYSTEM},...chatHistory.slice(-10)],max_tokens:600,temperature:.7})
     });
     const d=await res.json();
     if(!res.ok)throw new Error(d.error?.message||`Erro ${res.status}`);

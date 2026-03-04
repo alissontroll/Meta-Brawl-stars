@@ -301,12 +301,7 @@
 
 <script>
 /* ─── CONFIG ─── */
-const PROXIES = [
-  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
-];
-const BASE = 'https://api.brawlapi.com';
+// API via função serverless Vercel (sem CORS!)
 
 let apiKey = '', allBrawlers = [], currentFilter = 'all', chatHistory = [];
 
@@ -395,36 +390,20 @@ document.querySelectorAll('.tab').forEach(tab=>{
   });
 });
 
-/* ─── FETCH WITH PROXY FALLBACK ─── */
+/* ─── FETCH VIA SERVERLESS ─── */
 async function fetchWithProxy(path) {
-  const url = BASE + path;
-  for (const makeProxy of PROXIES) {
-    try {
-      const r = await fetch(makeProxy(url), {signal: AbortSignal.timeout(8000)});
-      if (!r.ok) continue;
-      const text = await r.text();
-      return JSON.parse(text);
-    } catch(e) { continue; }
-  }
-  throw new Error('Todos os proxies falharam');
+  const endpoint = path.replace(/^\//, '');
+  const r = await fetch(`/api/brawlify?path=${endpoint}`, {signal: AbortSignal.timeout(10000)});
+  if (!r.ok) throw new Error('API error ' + r.status);
+  return r.json();
 }
 
 /* ─── BRAWLERS ─── */
 async function loadBrawlers(){
-  try {
-    const data = await fetchWithProxy('/brawlers');
-    allBrawlers = data.list || [];
-    const badge = document.getElementById('dataSourceBadge');
-    badge.innerHTML = '<div class="source-badge">✅ Dados ao vivo da Brawlify API</div>';
-    renderBrawlers(allBrawlers);
-  } catch(e) {
-    // Use static fallback
-    allBrawlers = STATIC_BRAWLERS;
-    const badge = document.getElementById('dataSourceBadge');
-    badge.innerHTML = '<div class="source-badge" style="background:rgba(255,214,0,.08);color:var(--yellow);border-color:rgba(255,214,0,.2)">⚡ Dados locais (API indisponível)</div>';
-    renderBrawlers(allBrawlers);
-    showToast('Usando dados locais — API bloqueada pela rede','error');
-  }
+  // Carrega direto do CDN — sem erros de CORS!
+  allBrawlers = STATIC_BRAWLERS;
+  document.getElementById('dataSourceBadge').innerHTML = '<div class="source-badge">✅ Brawlers carregados!</div>';
+  renderBrawlers(allBrawlers);
 }
 
 function rarityClass(r=''){return 'rarity-'+r.toLowerCase().replace(' ','-')}
@@ -551,7 +530,7 @@ async function callGrok(prompt){
     const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
-      body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'system',content:SYSTEM},{role:'user',content:prompt}],max_tokens:800,temperature:.7})
+      body:JSON.stringify({model:'meta-llama/llama-4-scout-17b-16e-instruct',messages:[{role:'system',content:SYSTEM},{role:'user',content:prompt}],max_tokens:800,temperature:.7})
     });
     if(!res.ok){const e=await res.json();throw new Error(e.error?.message||`Erro ${res.status}`);}
     const d=await res.json();return d.choices[0].message.content;
@@ -571,7 +550,7 @@ async function sendChat(){
     const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
-      body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'system',content:SYSTEM},...chatHistory.slice(-10)],max_tokens:600,temperature:.7})
+      body:JSON.stringify({model:'meta-llama/llama-4-scout-17b-16e-instruct',messages:[{role:'system',content:SYSTEM},...chatHistory.slice(-10)],max_tokens:600,temperature:.7})
     });
     const d=await res.json();
     if(!res.ok)throw new Error(d.error?.message||`Erro ${res.status}`);
